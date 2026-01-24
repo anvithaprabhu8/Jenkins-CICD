@@ -30,17 +30,21 @@ pipeline {
    stage('Docker build image') {
      steps {
        sh 'echo building docker image'
-       def image = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+       script {
+         def image = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+       }
      }
    }
    stage('Docker push image') {
      steps {
        sh 'echo push docker image'
-       docker.withRegistry('', "${DOCKER_CREDENTIALS}") {
-       docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-       }
-     } 
-   } 
- }
+       script {
+        docker.withRegistry('', "${DOCKER_CREDENTIALS}") {
+        docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
+        }
+       }     
+      } 
+    } 
+  }
 }    
     
