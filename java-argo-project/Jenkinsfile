@@ -38,7 +38,9 @@ pipeline {
        sh 'echo push docker image'
        docker.withRegistry('', "${DOCKER_CREDENTIALS}") {
        docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-      }
+       }
      } 
-   }
-}
+   } 
+ }
+}    
+    
