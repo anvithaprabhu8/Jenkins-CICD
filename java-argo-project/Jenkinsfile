@@ -1,0 +1,27 @@
+pipeline {
+  agent {
+    docker {
+      image 'abhishekf5/maven-abhishek-docker-agent:v1'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
+  stages {
+    stage('checkout') {
+      steps {
+        sh 'echo passed'
+      }
+    }
+    stage('Build and test'){
+      steps {
+        sh 'cd java-argo-project && mvn clean package' 
+      }
+    }
+    stage('Sonarqube Analysis') {
+      steps {
+        withSonarQubeEnv('SonarQubeServer') {
+        sh 'cd java-argo-project && mvn sonar:sonar'
+        }
+      }
+    }
+  }
+}
