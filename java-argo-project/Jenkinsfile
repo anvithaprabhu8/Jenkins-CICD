@@ -29,6 +29,7 @@ pipeline {
     }
    stage('Docker build image') {
      steps {
+       sh 'cd java-argo-project'
        sh 'echo building docker image'
        script {
          def image = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
