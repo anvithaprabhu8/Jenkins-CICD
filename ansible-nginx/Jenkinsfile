@@ -8,7 +8,7 @@ pipeline {
     }
     stage('start nginx'){
       steps {
-         sh 'ansible-playbook deploy.yaml -i hosts.ini'
+         sh 'ansible-playbook ansible-nginx/deploy.yaml -i hosts.ini'
       }
     }
   }
