@@ -11,6 +11,7 @@ pipeline {
          sh 'ansible-playbook deploy.yaml -i hosts.ini'
       }
     }
+  }
     post {
         success {
             echo 'Pipeline + Ansible executed successfully ✅'
@@ -18,6 +19,5 @@ pipeline {
         failure {
             echo 'Pipeline failed 💥'
         }
-    }
   }
 }
