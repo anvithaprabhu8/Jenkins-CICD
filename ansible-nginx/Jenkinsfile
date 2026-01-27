@@ -1,0 +1,23 @@
+pipeline {
+  agent any
+  stages {
+    stage('checkout'){
+      steps {
+         checkout scm
+      }
+    }
+    stage('start nginx'){
+      steps {
+         sh 'ansible-playbook deploy.yaml -i hosts.ini'
+      }
+    }
+    post {
+        success {
+            echo 'Pipeline + Ansible executed successfully ✅'
+        }
+        failure {
+            echo 'Pipeline failed 💥'
+        }
+    }
+  }
+}
