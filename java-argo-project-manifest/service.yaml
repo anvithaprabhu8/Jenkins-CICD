@@ -8,5 +8,5 @@ spec:
     app: java-spring-argo-pod
   ports:
     - port: 80
-      targetPort: 8085
+      targetPort: 8081
       nodePort: 30085
