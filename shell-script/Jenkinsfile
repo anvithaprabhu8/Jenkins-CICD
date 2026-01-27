@@ -13,13 +13,13 @@ pipeline {
     stage('Build application') {
       steps {
         echo "Running application"
-        sh './app.sh'
+        sh 'cd shell-script && ./app.sh'
       }
     }
     stage('Testing application') {
       steps {
         echo "Testing application"
-        sh './test.sh'
+        sh 'cd shell-script/ && ./test.sh'
       }
     }
 
