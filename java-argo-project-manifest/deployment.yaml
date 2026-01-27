@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+      name: java-spring-argo
+      labels:
+          app: java-spring-argo-app
+spec:
+   replicas: 2
+   selector:
+        matchLabels:
+             app: java-spring-argo-pod
+   template:
+       metadata:
+           labels:
+              app: java-spring-argo-pod
+       spec:
+           containers:
+            - name: java-spring-argo
+              image: anvithaprabhu98/myjavaargo:tag
+              ports:
+                - containerPort: 8085
+
