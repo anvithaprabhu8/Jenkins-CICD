@@ -18,5 +18,5 @@ spec:
             - name: java-spring-argo
               image: anvithaprabhu98/myjavaargo:30
               ports:
-                - containerPort: 8085
+                - containerPort: 8081
 
