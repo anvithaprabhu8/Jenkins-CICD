@@ -7,7 +7,7 @@ pipeline {
     stage('Checkout') {
       steps {
         echo "Checking out code in SCM"
-        checkout scm
+        git url: 'https://github.com/anvithaprabhu8/Jenkins-CICD' , branch: 'main'
       }
     }
     stage('Build application') {
