@@ -5,16 +5,22 @@ pipeline {
   stages {
   
     stage('Checkout') {
-      echo "Checking out code in SCM"
-      checkout scm
+      steps {
+        echo "Checking out code in SCM"
+        checkout scm
+      }
     }
     stage('Build application') {
-     echo "Running application"
-     sh './app.sh'
+      steps {
+        echo "Running application"
+        sh './app.sh'
+      }
     }
     stage('Testing application') {
-     echo "Testing application"
-     sh './test.sh'
+      steps {
+        echo "Testing application"
+        sh './test.sh'
+      }
     }
 
   }
