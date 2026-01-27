@@ -5,18 +5,27 @@ pipeline {
   stages {
   
     stage('Checkout') {
+      when {
+          branch 'main'
+      }
       steps {
         echo "Checking out code in SCM"
         checkout scm
       }
     }
     stage('Build application') {
+      when {
+          branch 'main'
+      }
       steps {
         echo "Running application"
         sh 'cd shell-script && ./app.sh'
       }
     }
     stage('Testing application') {
+      when {
+          branch 'main'
+      }
       steps {
         echo "Testing application"
         sh 'cd shell-script/ && ./test.sh'
