@@ -46,7 +46,29 @@ pipeline {
         }
        }     
       } 
-    } 
+    }
+   stage('Update image in Manifest'){
+     environment{
+       GIT_REPO_NAME= "Jenkins-CICD"
+     }
+     steps{
+       withCredentials([usernamePassword(
+            credentialsId: 'my-github',
+            usernameVariable: 'GIT_USER',
+            passwordVariable: 'GIT_TOKEN'
+        )]) {
+            sh '''
+                git config user.name "anvithaprabhu"
+                git config user.email "anvithaprabhu8@gmail.com"
+
+                sed -i "s/tag/${BUILD_NUMBER}/g" java-argo-project-manifest/deployment.yaml
+
+                git add java-argo-project-manifest/deployment.yaml
+                git commit -m "Updated image in deployment file with tag ${BUILD_NUMBER}"
+                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/${GIT_REPO_NAME} HEAD:main
+            '''
+     }
+   } 
   }
 }    
     
