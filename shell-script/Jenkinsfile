@@ -1,13 +1,12 @@
+@Library("shared-lib-checkout") _
 pipeline {
-
   agent any
-
   stages {
   
     stage('Checkout') {
       steps {
-        echo "Checking out code in SCM"
-        checkout scm
+        echo "Checking out code in SCM -shared-lib"
+        checkOut()
       }
     }
     stage('Build application') {
