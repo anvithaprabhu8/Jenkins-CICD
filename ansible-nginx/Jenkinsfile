@@ -8,9 +8,10 @@ pipeline {
     }
     stage('start nginx'){
       steps {
-         sh 'ansible-playbook deploy.yaml -i hosts.ini'
+         sh 'ansible-playbook ansible-nginx/deploy.yaml -i ansible-nginx/hosts.ini'
       }
     }
+  }
     post {
         success {
             echo 'Pipeline + Ansible executed successfully ✅'
@@ -18,6 +19,5 @@ pipeline {
         failure {
             echo 'Pipeline failed 💥'
         }
-    }
   }
 }
