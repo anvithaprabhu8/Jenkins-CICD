@@ -38,13 +38,13 @@ pipeline {
     }
     post {
         success {
-            echo "Build #"$BUILD_NUMER" succeeded."
+            echo 'Build #"$BUILD_NUMER" succeeded.'
         }
         failure {
-            echo "Build #"$BUILD_NUMER" failed."
+            echo 'Build #"$BUILD_NUMER" failed.'
         }
         always {
-            echo "Build #"$BUILD_NUMER" completed."
+            echo 'Build #"$BUILD_NUMER" completed.'
         }
     }
 }
