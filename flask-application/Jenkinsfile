@@ -43,7 +43,13 @@ pipeline {
                 echo 'Testing the application'
                 sh 'sleep 2; echo "Hit http://localhost:5000/ to see the application"'
             }
-        }        
+        } 
+        stage('clean workspace'){
+            steps {
+                echo 'Cleaning current workspace'
+                cleanWs()
+            }
+        } 
     }
     post {
         success {
