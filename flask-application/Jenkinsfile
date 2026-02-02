@@ -35,7 +35,7 @@ pipeline {
                 Url: $BUILD_URL
                 EOF
                 '''
-                archiveArtifacts artifacts: 'deploy-artifact-${BUILD_NUMBER}.txt', fingerprint: true, followSymlinks: false
+                archiveArtifacts artifacts: 'deploy-artifact-${BUILD_NUMBER}.txt', fingerprint: true
             }
         }
         stage('test'){
