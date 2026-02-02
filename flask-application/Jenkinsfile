@@ -30,11 +30,11 @@ pipeline {
 
                 sh '''
                 cat > deploy-artifact-$BUILD_NUMBER.txt <<EOF
-                Build-number: $BUILD_NUMBER
-                Tag: $TAG
-                Url: $BUILD_URL
-                EOF
-                '''
+Build-number: $BUILD_NUMBER
+Tag: $TAG
+Url: $BUILD_URL
+EOF
+'''
                 archiveArtifacts artifacts: "deploy-artifact-${BUILD_NUMBER}.txt", fingerprint: true
             }
         }
