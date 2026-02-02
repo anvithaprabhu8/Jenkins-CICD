@@ -29,10 +29,10 @@ pipeline {
                 sh 'docker run -d --name flask-app -p 5000:5000 "$IMAGE:$TAG"'
 
                 sh '''
-                cat > deploy-artifact-${BUILD_NUMBER}.txt <<EOF
-                Build-number: ${BUILD_NUMBER}
-                Tag: ${TAG}
-                Url: ${BUILD_URL}
+                cat > deploy-artifact-$BUILD_NUMBER.txt <<EOF
+                Build-number: $BUILD_NUMBER
+                Tag: $TAG
+                Url: $BUILD_URL
                 EOF
                 '''
                 archiveArtifacts artifacts: 'deploy-artifact-${BUILD_NUMBER}.txt', fingerprint: true, followSymlinks: false
