@@ -5,13 +5,6 @@ pipeline {
         TAG="${BUILD_NUMBER}"
     }
     stages {
-        stage('checkout'){
-            steps {
-                echo 'Checking out from repo'
-                git branch: 'main', credentialsId: 'my-github', 
-                url: 'https://github.com/anvithaprabhu8/Jenkins-CICD.git'
-            }
-        }   
         stage('build'){
             steps {
                 echo 'Building docker image'
@@ -42,5 +35,16 @@ pipeline {
                 sh 'sleep 2; echo "Hit http://localhost:5000/ to see the application"'
             }
         }        
+    }
+    post {
+        success {
+            echo "Build #"$BUILD_NUMER" succeeded."
+        }
+        failure {
+            echo "Build #"$BUILD_NUMER" failed."
+        }
+        always {
+            echo "Build #"$BUILD_NUMER" completed."
+        }
     }
 }
