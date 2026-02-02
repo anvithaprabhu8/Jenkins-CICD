@@ -27,6 +27,15 @@ pipeline {
                 sh 'docker pull "$IMAGE:$TAG"'
                 sh 'docker rm -f flask-app || true'
                 sh 'docker run -d --name flask-app -p 5000:5000 "$IMAGE:$TAG"'
+
+                sh '''
+                cat > deploy-artifact-${BUILD_NUMBER}.txt <<EOF
+                Build-number: ${BUILD_NUMBER}
+                Tag: ${TAG}
+                Url: ${BUILD_URL}
+                EOF
+                '''
+                archiveArtifacts artifacts: 'deploy-artifact-${BUILD_NUMBER}.txt', fingerprint: true, followSymlinks: false
             }
         }
         stage('test'){
@@ -38,13 +47,13 @@ pipeline {
     }
     post {
         success {
-            echo 'Build #"$BUILD_NUMER" succeeded.'
+            echo 'Build #${env.BUILD_NUMER} succeeded.'
         }
         failure {
-            echo 'Build #"$BUILD_NUMER" failed.'
+            echo 'Build #${env.BUILD_NUMER} failed.'
         }
         always {
-            echo 'Build #"$BUILD_NUMER" completed.'
+            echo 'Build #${env.BUILD_NUMER} completed.'
         }
     }
 }
