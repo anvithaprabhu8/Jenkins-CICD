@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE="anvithaprabhu98/flask-app"
+        TAG="${BUILD_NUMBER}"
+    }
+    stages {
+        stage('build'){
+            steps {
+                echo 'Building docker image'
+                sh 'cd flask-application && docker build -t "$IMAGE:$TAG" -t "$IMAGE:latest" .'
+            }
+        } 
+        stage('push'){
+            steps {
+                echo 'Pushing docker image to docker hub'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'DOCKERHUB_PWD', usernameVariable: 'DOCKERHUB_USER')]) {
+                sh 'echo $DOCKERHUB_PWD | docker login -u $DOCKERHUB_USER --password-stdin'
+                sh 'docker push "$IMAGE:$TAG"'
+                sh 'docker push "$IMAGE:latest"'
+                 }
+            }
+        }
+        stage('deploy'){
+            steps {
+                echo 'Deploying application'
+                sh 'docker pull "$IMAGE:$TAG"'
+                sh 'docker rm -f flask-app || true'
+                sh 'docker run -d --name flask-app -p 5000:5000 "$IMAGE:$TAG"'
+
+                sh '''
+                cat > deploy-artifact-$BUILD_NUMBER.txt <<EOF
+Build-number: $BUILD_NUMBER
+Tag: $TAG
+Url: $BUILD_URL
+EOF
+'''
+                archiveArtifacts artifacts: "deploy-artifact-${BUILD_NUMBER}.txt", fingerprint: true
+            }
+        }
+        stage('test'){
+            steps {
+                echo 'Testing the application'
+                sh 'sleep 2; echo "Hit http://localhost:5000/ to see the application"'
+            }
+        } 
+        stage('clean workspace'){
+            steps {
+                echo 'Cleaning current workspace'
+                cleanWs()
+            }
+        } 
+    }
+    post {
+        success {
+            echo 'Build #${env.BUILD_NUMER} succeeded.'
+        }
+        failure {
+            echo 'Build #${env.BUILD_NUMER} failed.'
+        }
+        always {
+            echo 'Build #${env.BUILD_NUMER} completed.'
+        }
+    }
+}
